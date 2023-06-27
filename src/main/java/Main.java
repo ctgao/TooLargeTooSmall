@@ -7,8 +7,10 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Main {
+    static final int FIRST_TIME = 999999;
 
     public static void main(String[] args){
+
         // Generate a mystery number
         Random rng = new Random();
         int mysteryNum = rng.nextInt(100);
@@ -16,9 +18,9 @@ public class Main {
 
         // Set up Scanner for User Input
         Scanner in = new Scanner(System.in);
-        int currentGuess;
+        int currentGuess = FIRST_TIME;
+        int previousGuess = FIRST_TIME;
         int counter = 0;
-//        String yayOrNay = "";
 
         // Set up a loop
         while(true) {
@@ -28,30 +30,25 @@ public class Main {
                 continue;
             }
 
+            // set the guesses, increment counter
+            previousGuess = currentGuess;
             currentGuess = in.nextInt();
-            counter++;
+            if(previousGuess == FIRST_TIME || previousGuess != currentGuess){
+                counter++;
+            }
 
             // Check against mystery number
-            if(currentGuess > mysteryNum){
-                System.out.println("Try a little smaller.");
-            }
-            else if(currentGuess == mysteryNum){
+            if(currentGuess == mysteryNum){
                 System.out.println("Wow! You've got a sixth sense.");
                 break;
+            }
+            else if(currentGuess > mysteryNum){
+                System.out.println("Try a little smaller.");
             }
             else{
                 // default case: the current guess is too small
                 System.out.println("Dream a bit larger.");
             }
-/*
-            // Check to see if the user is finished guessing or not
-            System.out.print("Give up (y/n)? ");
-            yayOrNay = in.next();
-            // If the user types "y" then they're done, otherwise, just continue with the gamw
-            if(yayOrNay.equals("y")){
-                break;
-            }
- */
         }
 
         // Once finished, show the number of guesses.
